@@ -21,6 +21,7 @@
         <module>chapter4_</module>
         <module>chapter3_</module>
         <module>chapter4_1</module>
+        <module>chapter4_InterfaceIdempotence</module>
 
 
     </modules>

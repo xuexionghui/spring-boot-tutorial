@@ -6,6 +6,7 @@
  - [第四章_：springsecrity的简单应用] 
     RABC权限，动态查询数据库
  - [第四章：配置拦截器]
+ -  完成chapter4_InterfaceIdempotence，通过token+redis 解决接口幂等性的问题（只要在对应的方法加上注解就可以）
  - [第五章：配置过滤器]
  - [第六章：配置高性能服务器Undertow]
  - [第七章：整合Lombok让项目更简洁]
