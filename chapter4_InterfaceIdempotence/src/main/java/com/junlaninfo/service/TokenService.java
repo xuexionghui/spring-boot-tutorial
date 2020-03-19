@@ -1,15 +1,16 @@
 package com.junlaninfo.service;
 
-import com.junlaninfo.common.Constant;
+
 import com.junlaninfo.common.ResponseCode;
 import com.junlaninfo.common.ServerResponse;
-import com.junlaninfo.util.JedisUtil;
 import com.junlaninfo.util.RandomUtil;
+import com.junlaninfo.util.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.StrBuilder;
 import org.hibernate.service.spi.ServiceException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,21 +23,25 @@ public class TokenService {
     private static final String TOKEN_NAME = "token";
 
     @Autowired
-    private JedisUtil jedisUtil;
+    RedisUtil  redisUtil;
+
 
 
     public ServerResponse createToken() {
-        String str = RandomUtil.UUID32();
-        StrBuilder token = new StrBuilder();
-        token.append(Constant.Redis.TOKEN_PREFIX).append(str);
+        String token = RandomUtil.UUID32();
+        /*StrBuilder token = new StrBuilder();
+        token.append(Constant.Redis.TOKEN_PREFIX).append(str);*/
 
-        jedisUtil.set(token.toString(), token.toString(), Constant.Redis.EXPIRE_TIME_MINUTE);
+        Jedis jedis = redisUtil.getJedis();
+        jedis.set(TOKEN_NAME,token.toString());
+        //jedisUtil.set(TOKEN_NAME,token.toString());
 
         return ServerResponse.success(token.toString());
     }
 
 
     public void checkToken(HttpServletRequest request) {
+        Jedis jedis = redisUtil.getJedis();
         String token = request.getHeader(TOKEN_NAME);
         if (StringUtils.isBlank(token)) {// header中不存在token
             token = request.getParameter(TOKEN_NAME);
@@ -45,11 +50,11 @@ public class TokenService {
             }
         }
 
-        if (!jedisUtil.exists(token)) {
+        if (!jedis.exists(token)) {
             throw new ServiceException(ResponseCode.REPETITIVE_OPERATION.getMsg());
         }
 
-        Long del = jedisUtil.del(token);
+        Long del = jedis.del(token);
         if (del <= 0) {
             throw new ServiceException(ResponseCode.REPETITIVE_OPERATION.getMsg());
         }

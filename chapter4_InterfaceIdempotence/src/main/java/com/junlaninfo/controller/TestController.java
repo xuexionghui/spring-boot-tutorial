@@ -22,7 +22,7 @@ public class TestController {
 
     @ApiIdempotent
     @PostMapping("testIdempotence")
-    public ServerResponse testIdempotence() {
+    public ServerResponse testIdempotence(String  token) {
         return testService.testIdempotence();
     }
 

@@ -5,3 +5,6 @@
 bootstrap.yml
 *.jar
 *target*
+*mvnw*
+.mvn
+.settings

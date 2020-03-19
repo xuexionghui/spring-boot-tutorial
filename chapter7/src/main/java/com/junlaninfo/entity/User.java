@@ -1,14 +1,12 @@
 package com.junlaninfo.entity;
 
 
-import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -33,39 +31,10 @@ CREATE TABLE `user` (
             3）IDENTITY：使用数据库的IDENTITY列莱保证唯一；
             4）AUTO：由容器挑选一个合适的方式来保证唯一；
             5）NONE：容器不负责主键的生成，由程序来完成。*/
-    /*@AssertTrue // 用于 boolean 字段，该字段只能为 true
-
-@AssertFalse // 用于 boolean 字段，该字段只能为 false
-
-@DecimalMax // 用于 Number 字段，只能小于或等于该值
-
-@DecimalMin // 用于 Number 字段，只能大于或等于该值
-
-@Digits(integer=2,fraction=20) // 检查是否是数字，校验整数位及小数位
-
-@Future // 检查该字段的日期是否是属于将来的日期
-
-@Length(min=2,max=6) // 用于字符串，检查字段长度是否在指定范围内
-
-@Max // 用于 Number 字段，只能小于或等于该值
-
-@Min // 用于 Number 字段，只能大于或等于该值
-
-@NotNull // 该字段不能为空
-
-@NotEmpty // 用于字符串，该字段不能为空字符串
-
-@NotBlank // 用于字符串，该字段不能为空字符串，忽略空格
-
-@Null // 该字段必须为空
-
-@Size(min=2,max=4) // 用于字符串、数组、集合、Map等，检查该字段的size是否在指定范围
-*/@Id
+   @Id
    @GeneratedValue(strategy =  GenerationType.IDENTITY)
    //@GeneratedValue注释定义了标识字段生成方式
     private   Long  id;
-    @NotNull(message = "用户名不能为空")
-    @Length(min = 1,max = 6,message = "用户名的长度为1位和六位")
     private  String  name;
     private   int  sex;
     //规定从前台传来的格式
